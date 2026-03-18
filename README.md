@@ -2,5 +2,6 @@
 Analyse der Zigaretten in Deutschland
 
 ## Quellen
-https://datenportal.bundesdrogenbeauftragter.de/nikotin
-https://de.statista.com/
+1) https://datenportal.bundesdrogenbeauftragter.de/nikotin
+2) https://de.statista.com/themen/1681/zigarettenindustrie/#statisticChapter
+3) https://www.dhs.de/suechte/nikotin/zahlen-daten-fakten/
