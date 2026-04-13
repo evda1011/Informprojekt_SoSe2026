@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from raucher_daten_jugend_1979_2023_ import jahre, nieraucher_prozent, raucher_prozent
+from __Ziggroup__.raucher_daten_jugend_1979_2023_ import jahre, nieraucher_prozent, raucher_prozent
 
 plt.figure(figsize=(10, 5.5))
 
