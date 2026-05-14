@@ -1,3 +1,12 @@
+## grafiken anzeigen und save
+from pathlib import Path
+
+output_ordner = Path("Preis_vs_Konsum") / "grafiken"
+output_ordner.mkdir(parents=True, exist_ok=True)
+
+
+
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -87,6 +96,9 @@ else:
     print("Es besteht kein negativer Zusammenhang.")
 
 
+
+#####---------------------GRAFIK 1-------------------
+
 # Diagramm: Entwicklung im Zeitverlauf mit zwei y-Achsen
 fig, ax1 = plt.subplots(figsize=(10, 5))
 
@@ -121,8 +133,15 @@ ax1.legend(linien, labels, loc="upper right")
 
 plt.title("Entwicklung von Zigarettenpreis und Pro-Kopf-Verbrauch")
 fig.tight_layout()
+
+plt.savefig(output_ordner / "entwicklung_preis_konsum.png", dpi=300) ##SAVE GRAFIK
+
 plt.show()
 
+
+
+
+##--------------GRAFIK2
 
 # Scatterplot mit Trendlinie
 plt.figure(figsize=(8, 5))
@@ -148,6 +167,10 @@ plt.ylabel("Pro-Kopf-Verbrauch [Stück]")
 plt.title("Zusammenhang zwischen Preis und Konsum")
 plt.legend()
 plt.tight_layout()
+
+
+plt.savefig(output_ordner / "zusammenhang_preis_konsum.png", dpi=300) #SAVE GRAFIK
+
 plt.show()
 
 
