@@ -47,15 +47,6 @@ df = pd.merge(preis_df, konsum_df, on="year", how="inner")
 print(df)
 
 
-# Wiederverwendbare Funktion aus src/plot_utils.py
-plot_linie(
-    df,
-    "year",
-    "price_cent",
-    "Entwicklung des Zigarettenpreises",
-    "Jahr",
-    "Preis pro Zigarette [Cent]"
-)
 
 
 # Dictionary mit Erklärungen/Einheiten
@@ -112,7 +103,7 @@ plot_zwei_achsen(
     "year",
     "price_cent",
     "consumption_per_capita",
-    "Entwicklung von Zigarettenpreis und Pro-Kopf-Verbrauch",
+    "Entwicklung von Zigarettenpreis und Pro-Kopf-Verbrauch bis 2025",
     "Jahr",
     "Preis pro Zigarette [Cent]",
     "Pro-Kopf-Verbrauch [Stück]",
@@ -129,20 +120,14 @@ m, b = plot_scatter_trend(
     df,
     "price_cent",
     "consumption_per_capita",
-    "Zusammenhang zwischen Preis und Konsum",
+    "Zusammenhang zwischen Preis und Konsum bis 2025",
     "Preis pro Zigarette [Cent]",
     "Pro-Kopf-Verbrauch [Stück]",
     output_ordner / "zusammenhang_preis_konsum.png"
 )
 
 
-# Einfache Prognose als zusätzliche Analyse
-zukunft_preise = [40, 45, 50]
 
-for preis in zukunft_preise:
-    prognose_konsum = m * preis + b
 
-    if prognose_konsum < 0:
-        prognose_konsum = 0
 
-    print(f"Bei einem Preis von {preis} Cent wird ein Konsum von ca. {prognose_konsum:.0f} Zigaretten pro Kopf prognostiziert.")
+
