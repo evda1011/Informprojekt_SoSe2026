@@ -1,0 +1,18 @@
+Ваш проект INForm - обзор структуры
+У вас есть несколько директорий для анализа:
+
+Preis_vs_Konsum/ - анализ цены и потребления
+
+Prognose_Änderung_der_Zigarrttenpreis/ - прогноз изменения цен на сигареты
+
+vergleich_des_zigarettenkonsums_deutschland_schweiz/ - сравнение потребления в Германии и Швейцарии
+
+__Konsum-analyse__/ - анализ потребления
+
+__Markt-analyse__/ - анализ рынка
+
+__Sterblichkeit__/ - анализ смертности
+
+__VerbrauchProKopf__/ - анализ потребления на душу населения
+
+__Ziggroup__/ - групповая аналитика
