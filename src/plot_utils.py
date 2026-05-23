@@ -156,3 +156,49 @@ def plot_balken_gruppiert(df, x_spalte, y_spalten, titel, x_label, y_label, spei
         plt.savefig(speichern_unter, dpi=300)
 
     plt.show()
+
+
+
+
+## graf mit colores
+def plot_zwei_achsencolors(df, x_spalte, y1_spalte, y2_spalte, titel, x_label, y1_label, y2_label, speichern_unter=None):
+    fig, ax1 = plt.subplots(figsize=(10, 5))
+
+    linie1 = ax1.plot(
+        df[x_spalte],
+        df[y1_spalte],
+        marker="o",
+        color="#e8c547",      # gold
+        linewidth=2.5,
+        label=y1_label
+    )
+
+    ax1.set_xlabel(x_label)
+    ax1.set_ylabel(y1_label, color="#e8c547")
+    ax1.tick_params(axis="y", labelcolor="#e8c547")
+
+    ax2 = ax1.twinx()
+
+    linie2 = ax2.plot(
+        df[x_spalte],
+        df[y2_spalte],
+        marker="o",
+        color="#4fc3f7",      # cyan
+        linewidth=2.5,
+        label=y2_label
+    )
+
+    ax2.set_ylabel(y2_label, color="#4fc3f7")
+    ax2.tick_params(axis="y", labelcolor="#4fc3f7")
+
+    linien = linie1 + linie2
+    labels = [linie.get_label() for linie in linien]
+    ax1.legend(linien, labels, loc="upper right")
+
+    plt.title(titel)
+    fig.tight_layout()
+
+    if speichern_unter is not None:
+        plt.savefig(speichern_unter, dpi=300)
+
+    plt.show()
