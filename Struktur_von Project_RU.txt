@@ -11,8 +11,18 @@ __Konsum-analyse__/ - анализ потребления
 
 __Markt-analyse__/ - анализ рынка
 
-__Sterblichkeit__/ - анализ смертности
+__Sterblichkeit__/ - Основной анализ смертности от курения
 
 __VerbrauchProKopf__/ - анализ потребления на душу населения
 
-__Ziggroup__/ - групповая аналитика
+__Ziggroup__/ - Групповой анализ по сигаретам
+
+src/ - Основной исходный код
+
+main_code.ipynb  - Главный Jupyter Notebook проекта
+
+sterblichkeit-analyse.ipynb  - Специализированный ноутбук по смертности
+
+.venv/   -  Python виртуальное окружение
+
+pyproject.toml + poetry.lock  -  Управление зависимостями через Poetry
