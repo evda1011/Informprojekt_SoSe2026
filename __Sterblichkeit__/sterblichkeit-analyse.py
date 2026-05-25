@@ -4,8 +4,8 @@ import seaborn as sns
 import os
 
 # =========================================================
-# ПУТЬ К ФАЙЛУ И ПАПКЕ ДЛЯ СОХРАНЕНИЯ
-# =========================================================
+# Der Weg zum Excel-Datensatz
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 file_name = 'statistischer-bericht-todesursachen-2120400247005.xlsx'
 file_path = os.path.join(script_dir, file_name)
@@ -16,16 +16,16 @@ if not os.path.exists(file_path):
     exit(1)
 
 # =========================================================
-# НАСТРОЙКИ
-# =========================================================
+# FUNKTIONEN UND KONSTANTEN
+
 plt.rcParams['font.family'] = 'DejaVu Sans'
 sns.set_style("whitegrid")
 
 print("\n=== ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT IN DEUTSCHLAND ===\n")
 
 # =========================================================
-# SAF + Ursachen
-# =========================================================
+# SAF + Ursachen und ihre Namen
+
 SAF = {'C34': 0.88, 'J44': 0.80, 'I20-I25': 0.25, 
        'I60-I69': 0.18, 'C15': 0.70, 'C25': 0.25}
 
@@ -38,8 +38,8 @@ causes_names = {
 }
 
 # =========================================================
-# DATEN LADEN
-# =========================================================
+# DATEN LADEN UND VORBEREITEN
+
 df_total = pd.read_excel(file_path, sheet_name='23211-b09', header=3)
 df_male = pd.read_excel(file_path, sheet_name='23211-b10', header=3)
 df_female = pd.read_excel(file_path, sheet_name='23211-b11', header=3)
@@ -55,8 +55,8 @@ total_deaths = get_deaths_by_icd(df_total, 'A00-U85')
 print(f"Gesamte Sterbefälle 2024: {total_deaths:,}\n")
 
 # =========================================================
-# ANALYSE
-# =========================================================
+# ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT
+
 results = []
 for code, name in causes_names.items():
     dt = get_deaths_by_icd(df_total, code)
@@ -79,15 +79,15 @@ print(df_results.round(2).to_string(index=False))
 
 # =========================================================
 # FARBPALETTE
-# =========================================================
+
 colors = sns.color_palette("Reds_d", len(df_results))
 
 # =========================================================
-# ВИЗУАЛИЗАЦИЯ
-# =========================================================
+# DIAGRAMME ERSTELLEN
+
 print("\nErstelle Diagramme...")
 
-# 1. Bar Chart
+# 1. Bar Chart - Zugeschriebene Todesfälle
 fig1, ax1 = plt.subplots(figsize=(10, 6))
 sns.barplot(data=df_results, x='Zugeschriebene_Todesfälle', y='Ursache', 
             palette=colors, ax=ax1)
@@ -98,7 +98,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(script_dir, '01_Zugeschriebene_Sterblichkeit.png'), dpi=300)
 plt.close(fig1)
 
-# 2. Geschlecht
+# 2. Geschlechtsspezifische Bar Chart
 df_gender = df_results[['Ursache','Todesfälle_Männer','Todesfälle_Frauen']].melt(
     id_vars='Ursache', var_name='Geschlecht', value_name='Todesfälle')
 
@@ -111,7 +111,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(script_dir, '02_Sterblichkeit_nach_Geschlecht.png'), dpi=300)
 plt.close(fig2)
 
-# 3. PIE CHART — максимально плотный
+# 3. PIE CHART - STRUKTUR DER RAUCHBEDINGTEN STERBLICHKEIT
 fig3, ax3 = plt.subplots(figsize=(11, 9))
 wedges, texts, autotexts = ax3.pie(
     df_results['Zugeschriebene_Todesfälle'],
