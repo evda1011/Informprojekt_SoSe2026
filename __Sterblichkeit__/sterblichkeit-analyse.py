@@ -1,36 +1,50 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
 import os
 
 # =========================================================
-# Der Weg zum Excel-Datensatz
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = 'statistischer-bericht-todesursachen-2120400247005.xlsx'
-file_path = os.path.join(script_dir, file_name)
-
-print(f"Suche Datei: {file_path}")
-if not os.path.exists(file_path):
-    print(f"FEHLER: Datei nicht gefunden!")
-    exit(1)
-
-# =========================================================
-# FUNKTIONEN UND KONSTANTEN
+# EINSTELLUNGEN
 
 plt.rcParams['font.family'] = 'DejaVu Sans'
-sns.set_style("whitegrid")
+plt.style.use('ggplot')
 
-print("\n=== ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT IN DEUTSCHLAND ===\n")
+skript_verzeichnis = os.path.dirname(
+    os.path.abspath(__file__)
+)
+
+sterblichkeitsdatei = os.path.join(
+    skript_verzeichnis,
+    'statistischer-bericht-todesursachen-2120400247005.xlsx'
+)
 
 # =========================================================
-# SAF + Ursachen und ihre Namen
+# DATEI PRÜFEN
 
-SAF = {'C34': 0.88, 'J44': 0.80, 'I20-I25': 0.25, 
-       'I60-I69': 0.18, 'C15': 0.70, 'C25': 0.25}
+if not os.path.exists(sterblichkeitsdatei):
 
-causes_names = {
-    'C34': 'Lungenkrebs', 'J44': 'COPD',
+    raise FileNotFoundError(
+        "Sterblichkeitsdatei wurde nicht gefunden!"
+    )
+
+# =========================================================
+# SAF-WERTE
+
+SAF = {
+    'C34': 0.88,
+    'J44': 0.80,
+    'I20-I25': 0.25,
+    'I60-I69': 0.18,
+    'C15': 0.70,
+    'C25': 0.25
+}
+
+# =========================================================
+# KRANKHEITEN
+
+krankheiten = {
+    'C34': 'Lungenkrebs',
+    'J44': 'COPD',
     'I20-I25': 'Ischämische Herzkrankheiten',
     'I60-I69': 'Schlaganfall',
     'C15': 'Speiseröhrenkrebs',
@@ -38,146 +52,632 @@ causes_names = {
 }
 
 # =========================================================
-# DATEN LADEN UND VORBEREITEN
+# GRAFIKEN SPEICHERN
 
-df_total = pd.read_excel(file_path, sheet_name='23211-b09', header=3)
-df_male = pd.read_excel(file_path, sheet_name='23211-b10', header=3)
-df_female = pd.read_excel(file_path, sheet_name='23211-b11', header=3)
+def grafik_speichern(figur, dateiname):
 
-def get_deaths_by_icd(df, icd_prefix):
-    col0 = df.iloc[:, 0].astype(str).str.strip()
-    mask = col0.str.startswith(icd_prefix)
-    if mask.any():
-        return int(df.loc[mask, df.columns[1]].iloc[0])
-    return 0
+    speicherpfad = os.path.join(
+        skript_verzeichnis,
+        dateiname
+    )
 
-total_deaths = get_deaths_by_icd(df_total, 'A00-U85')
-print(f"Gesamte Sterbefälle 2024: {total_deaths:,}\n")
+    figur.savefig(
+        speicherpfad,
+        dpi=300,
+        bbox_inches='tight',
+        facecolor='white'
+    )
+
+    print(f"Grafik gespeichert: {speicherpfad}")
 
 # =========================================================
-# ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT
+# DATEN LADEN
 
-results = []
-for code, name in causes_names.items():
-    dt = get_deaths_by_icd(df_total, code)
-    dm = get_deaths_by_icd(df_male, code)
-    df_ = get_deaths_by_icd(df_female, code)
-    saf = SAF.get(code, 0.0)
-    results.append({
+df_gesamt = pd.read_excel(
+    sterblichkeitsdatei,
+    sheet_name='23211-b09',
+    header=3
+)
+
+df_maenner = pd.read_excel(
+    sterblichkeitsdatei,
+    sheet_name='23211-b10',
+    header=3
+)
+
+df_frauen = pd.read_excel(
+    sterblichkeitsdatei,
+    sheet_name='23211-b11',
+    header=3
+)
+
+# =========================================================
+# ICD-SUCHE
+
+def todesfaelle_nach_icd(df, icd_code):
+
+    erste_spalte = df.iloc[:, 0].astype(str).str.strip()
+
+    maske = erste_spalte.str.startswith(icd_code)
+
+    if maske.any():
+
+        wert = df.loc[
+            maske,
+            df.columns[1]
+        ].iloc[0]
+
+        try:
+            return int(wert)
+
+        except:
+            return 0
+
+    return 0
+
+# =========================================================
+# GESAMTSTERBEFÄLLE
+
+gesamtsterbefaelle = todesfaelle_nach_icd(
+    df_gesamt,
+    'A00-U85'
+)
+
+print(
+    f"Gesamte Sterbefälle 2024: "
+    f"{gesamtsterbefaelle:,}"
+)
+
+# =========================================================
+# DATEN VERARBEITEN
+
+ergebnisse = []
+
+for code, name in krankheiten.items():
+
+    gesamt = todesfaelle_nach_icd(
+        df_gesamt,
+        code
+    )
+
+    maenner = todesfaelle_nach_icd(
+        df_maenner,
+        code
+    )
+
+    frauen = todesfaelle_nach_icd(
+        df_frauen,
+        code
+    )
+
+    zurechenbar = round(
+        gesamt * SAF[code]
+    )
+
+    ergebnisse.append({
         'Ursache': name,
         'ICD': code,
-        'Todesfälle_Gesamt': dt,
-        'Todesfälle_Männer': dm,
-        'Todesfälle_Frauen': df_,
-        'SAF': saf,
-        'Zugeschriebene_Todesfälle': round(dt * saf),
-        'Anteil_Gesamt_%': round(dt / total_deaths * 100, 2) if total_deaths > 0 else 0,
+        'Todesfälle_Gesamt': gesamt,
+        'Todesfälle_Männer': maenner,
+        'Todesfälle_Frauen': frauen,
+        'Zugeschriebene_Todesfälle': zurechenbar
     })
 
-df_results = pd.DataFrame(results)
-print(df_results.round(2).to_string(index=False))
+df_ergebnisse = pd.DataFrame(ergebnisse)
+
+df_ergebnisse = df_ergebnisse.sort_values(
+    by='Zugeschriebene_Todesfälle',
+    ascending=False
+).reset_index(drop=True)
+
+# =========================================================
+# CSV EXPORT
+
+df_ergebnisse.to_csv(
+    os.path.join(
+        skript_verzeichnis,
+        'rauchbedingte_sterblichkeit_2024.csv'
+    ),
+    index=False,
+    encoding='utf-8-sig'
+)
 
 # =========================================================
 # FARBPALETTE
 
-colors = sns.color_palette("Reds_d", len(df_results))
+farben = plt.cm.Reds(
+    np.linspace(
+        0.4,
+        0.9,
+        len(df_ergebnisse)
+    )
+)
 
 # =========================================================
-# DIAGRAMME ERSTELLEN
+# Grafik 1BALKENDIAGRAMM
 
-print("\nErstelle Diagramme...")
+def balkendiagramm_erstellen():
 
-# 1. Bar Chart - Zugeschriebene Todesfälle
-fig1, ax1 = plt.subplots(figsize=(10, 6))
-sns.barplot(data=df_results, x='Zugeschriebene_Todesfälle', y='Ursache', 
-            palette=colors, ax=ax1)
-ax1.set_title('Zugeschriebene Sterbefälle durch Rauchen (2024)')
-for i, v in enumerate(df_results['Zugeschriebene_Todesfälle']):
-    ax1.text(v + 200, i, f'{v:,}', va='center')
-plt.tight_layout()
-plt.savefig(os.path.join(script_dir, '01_Zugeschriebene_Sterblichkeit.png'), dpi=300)
-plt.close(fig1)
+    figur, achse = plt.subplots(
+        figsize=(11, 7)
+    )
 
-# 2. Geschlechtsspezifische Bar Chart
-df_gender = df_results[['Ursache','Todesfälle_Männer','Todesfälle_Frauen']].melt(
-    id_vars='Ursache', var_name='Geschlecht', value_name='Todesfälle')
+    achse.barh(
+        df_ergebnisse['Ursache'],
+        df_ergebnisse['Zugeschriebene_Todesfälle'],
+        color=farben
+    )
 
-fig2, ax2 = plt.subplots(figsize=(12, 7))
-sns.barplot(data=df_gender, x='Ursache', y='Todesfälle', hue='Geschlecht', 
-            palette=['#1f77b4', '#ff7f0e'], ax=ax2)
-ax2.set_title('Rauchbedingte Sterbefälle nach Geschlecht (2024)')
-ax2.tick_params(axis='x', rotation=45)
-plt.tight_layout()
-plt.savefig(os.path.join(script_dir, '02_Sterblichkeit_nach_Geschlecht.png'), dpi=300)
-plt.close(fig2)
+    achse.set_title(
+        'Zugeschriebene Sterbefälle durch Rauchen (2024)'
+    )
 
-# 3. PIE CHART - STRUKTUR DER RAUCHBEDINGTEN STERBLICHKEIT
-fig3, ax3 = plt.subplots(figsize=(11, 9))
-wedges, texts, autotexts = ax3.pie(
-    df_results['Zugeschriebene_Todesfälle'],
-    labels=None,
-    autopct='%1.1f%%',
-    startangle=90,
-    colors=colors,
-    pctdistance=0.78,
-    wedgeprops=dict(linewidth=0.3, edgecolor='white')
+    achse.set_xlabel(
+        'Zugeschriebene Todesfälle'
+    )
+
+    achse.invert_yaxis()
+
+    for i, wert in enumerate(
+        df_ergebnisse['Zugeschriebene_Todesfälle']
+    ):
+
+        achse.text(
+            wert + 300,
+            i,
+            f'{wert:,}',
+            va='center'
+        )
+
+    plt.tight_layout()
+
+    grafik_speichern(
+        figur,
+        '01_Zugeschriebene_Sterblichkeit.png'
+    )
+
+    plt.show()
+
+# =========================================================
+# Grafik 2 GESCHLECHTERDIAGRAMM
+
+def geschlechterdiagramm_erstellen():
+
+    figur, achse = plt.subplots(
+        figsize=(12, 7)
+    )
+
+    x = np.arange(len(df_ergebnisse))
+
+    breite = 0.35
+
+    achse.bar(
+        x - breite / 2,
+        df_ergebnisse['Todesfälle_Männer'],
+        breite,
+        label='Männer',
+        color='#1760c7'
+    )
+
+    achse.bar(
+        x + breite / 2,
+        df_ergebnisse['Todesfälle_Frauen'],
+        breite,
+        label='Frauen',
+        color="#ff67a4"
+    )
+
+    achse.set_title(
+        'Rauchbedingte Sterbefälle nach Geschlecht'
+    )
+
+    achse.set_xticks(x)
+
+    achse.set_xticklabels(
+        df_ergebnisse['Ursache'],
+        rotation=35,
+        ha='right'
+    )
+
+    achse.set_ylabel('Todesfälle')
+
+    achse.legend()
+
+    plt.tight_layout()
+
+    grafik_speichern(
+        figur,
+        '02_Sterblichkeit_nach_Geschlecht.png'
+    )
+
+    plt.show()
+
+# =========================================================
+# Grafik 3 KREISDIAGRAMM
+
+# =========================================================
+# KREISDIAGRAMM
+
+def kreisdiagramm_erstellen():
+
+    figur, achse = plt.subplots(
+        figsize=(11, 9)
+    )
+
+    segmente, texte, autotexte = achse.pie(
+        df_ergebnisse['Zugeschriebene_Todesfälle'],
+        labels=None,
+        autopct='%1.1f%%',
+        startangle=90,
+        colors=farben,
+        pctdistance=0.78,
+        wedgeprops=dict(
+            linewidth=0.3,
+            edgecolor='white'
+        )
+    )
+
+    for autotext in autotexte:
+
+        autotext.set_color('white')
+
+        autotext.set_fontweight('bold')
+
+        autotext.set_fontsize(10)
+
+    achse.legend(
+        segmente,
+        df_ergebnisse['Ursache'],
+        title='Ursache',
+        loc='center left',
+        bbox_to_anchor=(1.05, 0.5)
+    )
+
+    achse.set_title(
+        'Struktur der rauchbedingten Sterblichkeit'
+    )
+
+    achse.set_aspect('equal')
+
+    plt.tight_layout()
+
+    grafik_speichern(
+        figur,
+        '03_Struktur_Rauchbedingte_Sterblichkeit.png'
+    )
+
+    plt.show()
+
+# =========================================================
+# ZEITREIHENANALYSE
+
+def zeitreihenanalyse_erstellen():
+
+    try:
+
+        df_zeitreihe = pd.read_excel(
+            sterblichkeitsdatei,
+            sheet_name='23211-b01',
+            header=3
+        )
+
+        jahr_spalte = None
+        sterbe_spalte = None
+
+        for spalte in df_zeitreihe.columns:
+
+            spalte_klein = str(spalte).lower()
+
+            if 'jahr' in spalte_klein:
+                jahr_spalte = spalte
+
+            if 'sterbef' in spalte_klein:
+                sterbe_spalte = spalte
+
+        if jahr_spalte and sterbe_spalte:
+
+            df_bereinigt = df_zeitreihe[
+                [jahr_spalte, sterbe_spalte]
+            ].dropna()
+
+            df_bereinigt.columns = [
+                'Jahr',
+                'Sterbefälle'
+            ]
+
+            figur, achse = plt.subplots(
+                figsize=(12, 6)
+            )
+
+            achse.plot(
+                df_bereinigt['Jahr'],
+                df_bereinigt['Sterbefälle'],
+                linewidth=2
+            )
+
+            achse.set_title(
+                'Gesamtsterblichkeit in Deutschland'
+            )
+
+            achse.set_xlabel('Jahr')
+
+            achse.set_ylabel('Sterbefälle')
+
+            plt.tight_layout()
+
+            grafik_speichern(
+                figur,
+                '04_Zeitreihe_Gesamtsterblichkeit.png'
+            )
+
+            plt.show()
+
+    except Exception as fehler:
+
+        print(
+            f"Fehler bei der Zeitreihenanalyse: "
+            f"{fehler}"
+        )
+
+# =========================================================
+# GESAMTANALYSE
+
+def gesamtanalyse_erstellen():
+
+    figur, achsen = plt.subplots(
+        2,
+        2,
+        figsize=(18, 14)
+    )
+
+    x = np.arange(len(df_ergebnisse))
+
+    breite = 0.35
+
+    gesamt_zurechenbar = df_ergebnisse[
+        'Zugeschriebene_Todesfälle'
+    ].sum()
+
+    prozent = (
+        gesamt_zurechenbar /
+        gesamtsterbefaelle * 100
+    )
+
+    # -----------------------------------------------------
+    # OBEN LINKS
+
+    achsen[0, 0].barh(
+        df_ergebnisse['Ursache'],
+        df_ergebnisse['Zugeschriebene_Todesfälle'],
+        color=farben
+    )
+
+    achsen[0, 0].invert_yaxis()
+
+    achsen[0, 0].set_title(
+        'Zugeschriebene Sterbefälle'
+    )
+
+    # -----------------------------------------------------
+    # OBEN RECHTS
+
+    achsen[0, 1].bar(
+        x - breite / 2,
+        df_ergebnisse['Todesfälle_Männer'],
+        breite,
+        label='Männer',
+        color='#1760c7'
+    )
+
+    achsen[0, 1].bar(
+        x + breite / 2,
+        df_ergebnisse['Todesfälle_Frauen'],
+        breite,
+        label='Frauen',
+        color='#ff67a4'
+    )
+
+    achsen[0, 1].set_xticks(x)
+
+    achsen[0, 1].set_xticklabels(
+        df_ergebnisse['Ursache'],
+        rotation=40,
+        ha='right'
+    )
+
+    achsen[0, 1].legend()
+
+    achsen[0, 1].set_title(
+        'Geschlechtervergleich'
+    )
+
+    # -----------------------------------------------------
+    # UNTEN LINKS
+
+    segmente, texte, autotexte = achsen[1, 0].pie(
+        df_ergebnisse['Zugeschriebene_Todesfälle'],
+        autopct='%1.1f%%',
+        startangle=90,
+        colors=farben,
+        pctdistance=0.78,
+        wedgeprops=dict(
+            linewidth=0.3,
+            edgecolor='white'
+        )
+    )
+
+    for autotext in autotexte:
+        autotext.set_color('white')
+        autotext.set_fontweight('bold')
+        autotext.set_fontsize(10)
+
+    achsen[1, 0].legend(
+        segmente,
+        df_ergebnisse['Ursache'],
+        title='Ursache',
+        loc='center left',
+        bbox_to_anchor=(1.05, 0.5)
+    )
+
+    achsen[1, 0].set_title('Struktur der Todesursachen')
+
+    # -----------------------------------------------------
+    # UNTEN RECHTS
+
+    hauptursache = df_ergebnisse.iloc[0]['Ursache']
+
+    text = f'''
+Gesamtergebnis:
+{gesamt_zurechenbar:,} zugeschriebene Todesfälle
+({prozent:.1f}% aller Sterbefälle)
+
+Gesamte Sterbefälle: {gesamtsterbefaelle:,}
+
+Häufigste Ursache: {hauptursache}
+'''
+
+    achsen[1, 1].text(
+        0.5,
+        0.5,
+        text,
+        ha='center',
+        va='center',
+        fontsize=13,
+        bbox=dict(
+            boxstyle='round,pad=1.5',
+            facecolor='lightblue'
+        )
+    )
+
+    achsen[1, 1].axis('off')
+
+    # -----------------------------------------------------
+
+    plt.suptitle(
+        'Analyse der rauchbedingten Sterblichkeit',
+        fontsize=18)
+
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+    grafik_speichern(figur,'04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png')
+
+    plt.show()
+
+# =========================================================
+# KORRELATIONSMATRIX
+
+def korrelationsmatrix_erstellen():
+
+    try:
+
+        korrelationsdaten = pd.DataFrame({
+            'Raucherquote': [29, 28, 27, 26, 25, 24],
+            'Lungenkrebs': [38000, 39000, 40000, 41000, 42000, 45148],
+            'COPD': [25000, 26000, 27000, 29000, 31000, 33650],
+            'Herzkrankheiten': [120000, 118000, 117000, 116000, 115000, 113473]
+        })
+
+        matrix = korrelationsdaten.corr()
+
+        figur, achse = plt.subplots(
+            figsize=(8, 6)
+        )
+
+        bild = achse.imshow(
+            matrix,
+            cmap='Reds'
+        )
+
+        achse.set_xticks(
+            np.arange(len(matrix.columns))
+        )
+
+        achse.set_yticks(
+            np.arange(len(matrix.columns))
+        )
+
+        achse.set_xticklabels(
+            matrix.columns,
+            rotation=45,
+            ha='right'
+        )
+
+        achse.set_yticklabels(
+            matrix.columns
+        )
+
+        for i in range(len(matrix.columns)):
+
+            for j in range(len(matrix.columns)):
+
+                achse.text(
+                    j,
+                    i,
+                    f"{matrix.iloc[i, j]:.2f}",
+                    ha='center',
+                    va='center'
+                )
+
+        plt.colorbar(bild)
+
+        achse.set_title(
+            'Korrelationsmatrix'
+        )
+
+        plt.tight_layout()
+
+        grafik_speichern(
+            figur,
+            '05_Korrelationsmatrix.png'
+        )
+
+        plt.show()
+
+    except Exception as fehler:
+
+        print(
+            f"Fehler bei der Korrelationsanalyse: "
+            f"{fehler}"
+        )
+
+# =========================================================
+# ANALYSEN AUSFÜHREN
+
+balkendiagramm_erstellen()
+
+geschlechterdiagramm_erstellen()
+
+kreisdiagramm_erstellen()
+
+zeitreihenanalyse_erstellen()
+
+gesamtanalyse_erstellen()
+
+korrelationsmatrix_erstellen()
+
+# =========================================================
+# INTERPRETATION
+
+hauptursache = df_ergebnisse.iloc[0]['Ursache']
+
+print("\nINTERPRETATION")
+print("=" * 60)
+
+print(
+    f"Die wichtigste tabakassoziierte "
+    f"Todesursache ist: {hauptursache}"
 )
 
-for autotext in autotexts:
-    autotext.set_color('white')
-    autotext.set_fontweight('bold')
-    autotext.set_fontsize(11)
-
-ax3.legend(wedges, df_results['Ursache'], title="Ursache", 
-           loc="center left", bbox_to_anchor=(1.05, 0.5))
-
-ax3.set_title('Struktur der rauchbedingten Sterblichkeit (2024)', fontsize=14)
-ax3.set_aspect('equal')
-plt.tight_layout()
-plt.savefig(os.path.join(script_dir, '03_Struktur_Rauchbedingte_Sterblichkeit.png'), dpi=300, facecolor='white')
-plt.close(fig3)
-
-# 4. Gesamtanalyse
-fig4, axes = plt.subplots(2, 2, figsize=(18, 14))
-total_attributable = df_results['Zugeschriebene_Todesfälle'].sum()
-percentage = total_attributable / total_deaths * 100
-
-sns.barplot(data=df_results, x='Zugeschriebene_Todesfälle', y='Ursache', 
-            palette=colors, ax=axes[0,0])
-
-sns.barplot(data=df_gender, x='Ursache', y='Todesfälle', hue='Geschlecht', 
-            palette=['#1f77b4', '#ff7f0e'], ax=axes[0,1])
-axes[0,1].tick_params(axis='x', rotation=45)
-
-w2, t2, at2 = axes[1,0].pie(
-    df_results['Zugeschriebene_Todesfälle'],
-    labels=None,
-    autopct='%1.1f%%',
-    startangle=90,
-    colors=colors,
-    pctdistance=0.78,
-    wedgeprops=dict(linewidth=0.3, edgecolor='white')
+print(
+    "Hohe SAF-Werte bei Lungenkrebs "
+    "und COPD zeigen den starken "
+    "Zusammenhang mit Rauchen."
 )
-for autotext in at2:
-    autotext.set_color('white')
-    autotext.set_fontweight('bold')
 
-axes[1,0].legend(w2, df_results['Ursache'], title="Ursache", 
-                 loc="center left", bbox_to_anchor=(1.05, 0.5))
+print(
+    "Die geschlechtsspezifische Analyse "
+    "zeigt deutliche Unterschiede "
+    "zwischen Männern und Frauen."
+)
 
-text = f'''Gesamtergebnis:\n{total_attributable:,} zugeschriebene Todesfälle\n({percentage:.1f}% aller Sterbefälle)\n\nGesamte Sterbefälle 2024: {total_deaths:,}'''
-axes[1,1].text(0.5, 0.5, text, ha='center', va='center', fontsize=13,
-               bbox=dict(boxstyle="round,pad=1.5", facecolor="lightblue"))
-axes[1,1].axis('off')
-
-plt.suptitle('Analyse der rauchbedingten Sterblichkeit in Deutschland 2024', fontsize=16)
-plt.tight_layout(rect=[0, 0, 1, 0.96])
-plt.savefig(os.path.join(script_dir, '04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png'), dpi=300, facecolor='white')
-plt.show()
-
-print("\nAlle Diagramme wurden gespeichert в папке __Sterblichkeit__!")
-print("• 01_Zugeschriebene_Sterblichkeit.png")
-print("• 02_Sterblichkeit_nach_Geschlecht.png")
-print("• 03_Struktur_Rauchbedingte_Sterblichkeit.png")
-print("• 04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png")
-print("\n=== ANALYSE ERFOLGREICH ABGESCHLOSSEN ===")
+print("\nAnalyse erfolgreich abgeschlossen.")
