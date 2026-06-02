@@ -1,3 +1,6 @@
+##sp*Ater eliminieren, hab ich schon jupyternotebook gemacht
+
+
 import sys
 from pathlib import Path
 
