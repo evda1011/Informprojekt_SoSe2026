@@ -102,7 +102,6 @@ def plot_scatter_trend(df, x_spalte, y_spalte, titel, x_label, y_label, speicher
 
     plt.show()
 
-    return m, b
 
 
 ###art grafik--------------
