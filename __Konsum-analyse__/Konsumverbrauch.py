@@ -1,16 +1,28 @@
 import pandas as pd
-
-df = pd.read_csv("tabakkonsum_de.csv")
-
-print(df.head())
-
-# График потребления сигарет на душу населения
 import matplotlib.pyplot as plt
 
-plt.figure(figsize=(10,5))
-plt.plot(df["Jahr"], df["ProKopfVerbrauch_Stueck"], marker="o")
+# Загрузка данных
+df = pd.read_csv("konsumverbrauch_zigaretten_deutschland.csv")
+
+# Берём данные потребления на душу населения
+plot_df = df[["jahr", "verbrauch_pro_einwohner_quelle2"]].dropna()
+
+# Построение графика
+plt.figure(figsize=(12, 6))
+
+plt.plot(
+    plot_df["jahr"],
+    plot_df["verbrauch_pro_einwohner_quelle2"],
+    marker="o"
+)
+
+# Подписи
 plt.title("Pro-Kopf-Verbrauch von Zigaretten in Deutschland")
 plt.xlabel("Jahr")
 plt.ylabel("Zigaretten pro Einwohner")
+
+# Сетка
 plt.grid(True)
+
+# Показать график
 plt.show()
