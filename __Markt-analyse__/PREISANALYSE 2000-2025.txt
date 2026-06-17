@@ -1,0 +1,70 @@
+
+============================================================
+PREISANALYSE 2000-2025
+============================================================
+2000: 13.70 Cent/Zigarette 🟢 moderat | Steuer: 7.80 Cent 🟢 moderat
+2005: 20.40 Cent/Zigarette 🟡 hoch | Steuer: 13.10 Cent 🟢 moderat
+2006: 21.30 Cent/Zigarette 🟡 hoch | Steuer: 13.80 Cent 🟢 moderat
+2007: 21.90 Cent/Zigarette 🟡 hoch | Steuer: 13.90 Cent 🟢 moderat
+2008: 22.10 Cent/Zigarette 🟡 hoch | Steuer: 13.90 Cent 🟢 moderat
+2009: 22.65 Cent/Zigarette 🟡 hoch | Steuer: 14.01 Cent 🟢 moderat
+2010: 22.98 Cent/Zigarette 🟡 hoch | Steuer: 14.21 Cent 🟢 moderat
+2011: 23.58 Cent/Zigarette 🟡 hoch | Steuer: 14.51 Cent 🟢 moderat
+2012: 24.40 Cent/Zigarette 🟡 hoch | Steuer: 14.90 Cent 🟢 moderat
+2013: 25.10 Cent/Zigarette 🟡 hoch | Steuer: 15.19 Cent 🟡 hoch
+2014: 25.73 Cent/Zigarette 🟡 hoch | Steuer: 15.51 Cent 🟡 hoch
+2015: 26.70 Cent/Zigarette 🟡 hoch | Steuer: 15.85 Cent 🟡 hoch
+2016: 27.36 Cent/Zigarette 🟡 hoch | Steuer: 16.01 Cent 🟡 hoch
+2017: 28.19 Cent/Zigarette 🟡 hoch | Steuer: 16.21 Cent 🟡 hoch
+2018: 29.13 Cent/Zigarette 🟡 hoch | Steuer: 16.43 Cent 🟡 hoch
+2019: 30.15 Cent/Zigarette 🔴 sehr hoch | Steuer: 16.67 Cent 🟡 hoch
+2020: 30.90 Cent/Zigarette 🔴 sehr hoch | Steuer: 16.91 Cent 🟡 hoch
+2021: 31.65 Cent/Zigarette 🔴 sehr hoch | Steuer: 17.15 Cent 🟡 hoch
+2022: 33.27 Cent/Zigarette 🔴 sehr hoch | Steuer: 17.89 Cent 🟡 hoch
+2023: 35.18 Cent/Zigarette 🔴 sehr hoch | Steuer: 18.54 Cent 🔴 sehr hoch
+2024: 36.65 Cent/Zigarette 🔴 sehr hoch | Steuer: 18.83 Cent 🔴 sehr hoch
+2025: 38.10 Cent/Zigarette 🔴 sehr hoch | Steuer: 19.74 Cent 🔴 sehr hoch
+
+ STATISTIK (Preis pro Zigarette 1991-2025):
+  Durchschnittspreis: 25.60 Cent
+  Maximum: 38.10 Cent (2025)
+  Minimum: 10.90 Cent (1991)
+
+Preissteigerung 1991 → 2025: +27.20 Cent (+249.5%)
+
+============================================================
+FRAGE: Wie viele Zigaretten sind in einer Packung?
+============================================================
+
+ Analyse basierend auf Preisvergleich:
+
+2020:
+   Packungspreis (Statistik DZV): 7.00 €
+   Preis pro Zigarette (Destatis): 30.90 Cent
+   Berechnete Zigaretten pro Packung: 22.7
+
+2021:
+   Packungspreis (Statistik DZV): 7.20 €
+   Preis pro Zigarette (Destatis): 31.65 Cent
+   Berechnete Zigaretten pro Packung: 22.7
+
+2022:
+   Packungspreis (Statistik DZV): 7.60 €
+   Preis pro Zigarette (Destatis): 33.27 Cent
+   Berechnete Zigaretten pro Packung: 22.8
+
+2023:
+   Packungspreis (Statistik DZV): 8.40 €
+   Preis pro Zigarette (Destatis): 35.18 Cent
+   Berechnete Zigaretten pro Packung: 23.9
+
+2024:
+   Packungspreis (Statistik DZV): 8.70 €
+   Preis pro Zigarette (Destatis): 36.65 Cent
+   Berechnete Zigaretten pro Packung: 23.7
+
+2025:
+   Packungspreis (Statistik DZV): 9.00 €
+   Preis pro Zigarette (Destatis): 38.10 Cent
+   Berechnete Zigaretten pro Packung: 23.6
+
