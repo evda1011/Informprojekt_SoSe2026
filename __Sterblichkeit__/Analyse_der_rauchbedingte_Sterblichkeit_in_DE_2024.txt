@@ -1,0 +1,69 @@
+==========================================================================================
+ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT IN DEUTSCHLAND
+Deutschland, 2024
+==========================================================================================
+
+Daten erfolgreich geladen.
+
+Gesamtzahl aller Todesfälle: 1,007,758
+Gesamtzahl Krebstodesfälle:  230,392
+
+==============================================================================================================
+DETAILLIERTE ANALYSE DER RAUCHBEDINGTEN TODESURSACHEN
+==============================================================================================================
+Ursache                             |       Gesamt |     Männer |     Frauen |    SAF |  Rauchen zurechenbar
+--------------------------------------------------------------------------------------------------------------
+Ischämische Herzkrankheiten         |      113,473 |     65,435 |     48,038 |   0.25 |               28,368
+Speiseröhrenkrebs                   |       69,884 |     39,480 |     30,404 |   0.70 |               48,919
+Schlaganfall                        |       52,185 |     23,523 |     28,662 |   0.18 |                9,393
+Lungenkrebs                         |       45,148 |     26,441 |     18,707 |   0.88 |               39,730
+Akuter Myokardinfarkt               |       41,258 |     24,875 |     16,383 |   0.00 |                    0
+COPD (chronische Bronchitis/Emphysem) |       33,650 |     17,408 |     16,242 |   0.80 |               26,920
+Bauchspeicheldrüsenkrebs            |       19,533 |      9,844 |      9,689 |   0.25 |                4,883
+--------------------------------------------------------------------------------------------------------------
+ALLE TODESFÄLLE                     |    1,007,758
+ALLE KREBSTODESFÄLLE                |      230,392
+==============================================================================================================
+
+==========================================================================================
+WICHTIGSTE FAKTEN AUF EINEN BLICK
+==========================================================================================
+
+1️⃣ DIREKT MIT RAUCHEN VERBUNDENE ERKRANKUNGEN
+   • Lungenkrebs:                     45,148
+   • COPD:                            33,650
+   • Speiseröhrenkrebs:               69,884
+   • Bauchspeicheldrüsenkrebs:        19,533
+   ─────────────────────────────────────────────
+   GESAMT:                          168,215 (16.7% aller Todesfälle)
+
+2️⃣ HERZ-KREISLAUF-ERKRANKUNGEN
+   • Ischämische Herzkrankheiten:    113,473
+   • Akuter Myokardinfarkt:           41,258
+   • Schlaganfall:                    52,185
+   ─────────────────────────────────────────────
+   GESAMT:                          165,658 (16.4% aller Todesfälle)
+
+3️⃣ GESAMTERGEBNIS
+   Mit Rauchen direkt oder indirekt verbundene Todesfälle:
+   333,873 Menschen
+   Das entspricht 33.1% aller Todesfälle in Deutschland.
+
+4️⃣ KONTEXT
+   • Alle Krebstodesfälle:           230,392
+   • Anteil Lungenkrebs an Krebs:    19.6%
+   • Ischämische Herzkrankheiten > alle Krebsarten zusammen: NEIN
+   • Ischämische Herzkrankheiten > Lungenkrebs + COPD: JA
+
+==========================================================================================
+RAUCHEN ZURECHENBARE TODESFÄLLE (SAF-MODELL)
+==========================================================================================
+
+Geschätzte Todesfälle direkt durch Rauchen (epidemiologische Attribution):
+158,213 Todesfälle
+Das entspricht 15.7% aller Todesfälle.
+
+==========================================================================================
+ZEITREIHEN DER GESAMTSTERBLICHKEIT
+==========================================================================================
+Zeitreihenspalten konnten nicht automatisch erkannt werden.

@@ -70,7 +70,8 @@ Informprojekt_SoSe2026/
 │   └── Bundesländern.xlsx
 │
 ├── __Sterblichkeit__/
-│   ├── sterblichkeit-analyse.ipynb
+│   ├── Analyse_der_rauchbedingte_Sterblichkeit_in_DE_2024.txt
+│   ├── analyse_sterbdaten_von_2024.py
 │   ├── sterblichkeit-analyse.py
 │   ├── sterblichkeit-analyse copy.py
 │   ├── rauchquote.py
