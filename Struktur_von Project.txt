@@ -1,0 +1,104 @@
+Informprojekt_SoSe2026/
+│
+├── .gitignore
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+├── Struktur_von_Project.txt
+├── Performance_Final.ipynb
+│
+├── .ipynb_checkpoints/
+├── .venv/
+├── src/
+│
+├── __Konsum_nach_Geschlecht_und_Alter__/
+│   ├── Konsum_nach_Geschlecht_und_altersgruppe.ipynb
+│   ├── statistic_id1170342_praevalenz-von-tabakkonsum-in-deutschland-nach-geschlecht_daten_bereinigung.xlsx
+│   ├── statistic_id596838_tabakraucher-in-deutschland-nach-altersgruppen-bis-2024_daten_bereinigung.xlsx
+│   └── grafiken/
+│       └── tabakkonsum_geschlecht.png
+│
+├── __Markt-analyse__/
+│   ├── Konsumverbrauch.py
+│   ├── Preis_und_Steuern.ipynb
+│   ├── Preis_und_Steuern.py
+│   ├── Preis_vs_Konsum.py
+│   ├── PREISANALYSE 2000-2025.txt
+│   ├── __init__.py
+│   │
+│   ├── data/
+│   │   ├── konsumverbrauch_zigaretten.csv
+│   │   ├── preis_und_steuer.csv
+│   │   ├── preis_zigaretten.py
+│   │   ├── statistic_id1170342_praevalenz-von-tabakkonsum-in-deutschland-nach-geschlecht-bis-2030.xlsx
+│   │   ├── statistic_id377779_zigaretten_-preis-einer-schachtel-in-deutschland-bis-2026.xlsx
+│   │   ├── statistic_id37838_durchschnittspreis-von-zigaretten-und-enthaltene-tabaksteuer-in-deutschland-bis-2025.xlsx
+│   │   ├── statistic_id6209_pro-kopf-verbrauch-von-zigaretten-in-deutschland-bis-2025.xlsx
+│   │   ├── statistic_id6213_steuerwerte-der-tabaksteuer-fuer-zigaretten-in-deutschland-bis-2025.xlsx
+│   │   └── __pycache__/
+│   │
+│   ├── Grafiken/
+│   │   ├── Preis_und_Steuern.png
+│   │   ├── Preis_vs_Konsum_Korrelation.png
+│   │   ├── Preis_vs_Konsum_Zeitverlauf.png
+│   │   ├── tabak_timeline.png
+│   │   └── zigaretten_trend.png
+│   │
+│   └── Tabakpraevention_in_DE/
+│
+├── __Preis_vs_Konsum__/
+│   ├── Preis_vs_Konsum.ipynb
+│   ├── preis_vs_konsum.py
+│   ├── _durchschnittlicher-zigarettenpreis-in-deutschland.xlsx
+│   ├── _pro-kopf-verbrauch-von-zigaretten-in-deutschland.xlsx
+│   └── grafiken/
+│       ├── entwicklung_preis_konsum.png
+│       └── zusammenhang_preis_konsum.png
+│
+├── __Prognose_der_Zigarrttenpreis__/
+│   ├── Prognose.ipynb
+│   ├── _durchschnittlicher-zigarettenpreis-in-deutschland.xlsx
+│   ├── _pro-kopf-verbrauch-von-zigaretten-in-deutschland.xlsx
+│   └── grafiken/
+│       ├── prognose_kombiniert.png
+│       ├── prognose_konsum.png
+│       ├── prognose_preis.png
+│       └── prognose_zigaretten.png
+│
+├── __Rauchverhalten_nach_Bundeslaendern__/
+│   ├── Rauchverhalten_nach_Bundesländern.ipynb
+│   └── Bundesländern.xlsx
+│
+├── __Sterblichkeit__/
+│   ├── sterblichkeit-analyse.ipynb
+│   ├── sterblichkeit-analyse.py
+│   ├── sterblichkeit-analyse copy.py
+│   ├── rauchquote.py
+│   ├── Plan für Analyse der Sterblichkeit durch Rauchen in Deutschland.md
+│   │
+│   ├── data/
+│   │   ├── rauchbedingte_sterblichkeit_2024.csv
+│   │   ├── statistic_id1412286_gesundheitsbewusstes-verhalten-nach-lebensbereichen-und-geschlecht-2023.xlsx
+│   │   ├── statistic_id156902_sterbefaelle-in-deutschland-bis-2025.xlsx
+│   │   ├── statistic_id273406_lebenserwartung-in-deutschland-bei-geburt-nach-geschlecht-bis-2070.xlsx
+│   │   ├── statistic_id495775_tabakbedingte-sterbefaelle-in-deutschland-nach-geschlecht.xlsx
+│   │   └── statistischer-bericht-todesursachen-2120400247005.xlsx
+│   │
+│   └── Grafen/
+│       ├── 01_Zugeschriebene_Sterblichkeit.png
+│       ├── 02_Sterblichkeit_nach_Geschlecht.png
+│       ├── 03_Struktur_Rauchbedingte_Sterblichkeit.png
+│       ├── 04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png
+│       └── 05_Korrelationsmatrix.png
+│
+└── __Zielgroup__/
+    ├── raucher_visualization.ipynb
+    ├── raucher_daten_jugend_1979_2023_.py
+    ├── clean_data.csv
+    ├── raucher_nieraucher_trend.png
+    ├── raucher_ratio.png
+    ├── raucher_trend.png
+    ├── raucher_verhaeltnis.png
+    └── __pycache__/
+        ├── raucher_daten_jugend_1979_2023_.cpython-312.pyc
+        └── raucher_daten_jugend_1979_2023_.cpython-313.pyc
