@@ -6,69 +6,46 @@ import numpy as np
 import pandas as pd
 import os
 
-# =====================================================
-# GET SCRIPT DIRECTORY
-# =====================================================
 
+# Pfade
 script_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(script_dir, "data")
+output_dir = os.path.join(script_dir, "Grafiken")
 
-data_dir = os.path.join(
-    script_dir,
-    "data"
-)
+os.makedirs(output_dir, exist_ok=True)
 
-output_dir = os.path.join(
-    script_dir,
-    "Grafiken"
-)
 
-os.makedirs(
-    output_dir,
-    exist_ok=True
-)
+# CSV laden
+csv_path = os.path.join(data_dir, "preis_und_steuer.csv")
 
-# =====================================================
-# LOAD CSV DATA
-# =====================================================
+df = pd.read_csv(csv_path, encoding="utf-8")
 
-csv_path = os.path.join(
-    data_dir,
-    "preis_und_steuer.csv"
-)
+# Falls Leerzeichen in den Namen sind
+df.columns = df.columns.str.strip()
 
-df = pd.read_csv(csv_path)
+print(df.head())
 
-# =====================================================
-# EXTRACT COLUMNS
-# =====================================================
 
+# Daten
 jahre = df["jahr"].tolist()
 preis = df["preis"].tolist()
 steuer = df["steuer"].tolist()
 
-# =====================================================
-# STEUERANTEIL
-# =====================================================
 
+# Steueranteil berechnen
 steueranteil = [
     s / p * 100
     for s, p in zip(steuer, preis)
 ]
 
-# =====================================================
-# STYLE
-# =====================================================
 
+# Style
 plt.style.use("seaborn-v0_8-whitegrid")
 
-fig, ax = plt.subplots(
-    figsize=(16, 8)
-)
+fig, ax = plt.subplots(figsize=(16, 8))
 
-# =====================================================
-# LINES
-# =====================================================
 
+# Linien
 ax.plot(
     jahre,
     preis,
@@ -96,10 +73,8 @@ ax.plot(
     label="Steueranteil (%)"
 )
 
-# =====================================================
-# STATISTICS - MEAN & MEDIAN
-# =====================================================
 
+# Mittelwerte / Median
 mean_preis = np.mean(preis)
 median_preis = np.median(preis)
 
@@ -157,10 +132,8 @@ ax.axhline(
     label=f"Steueranteil Median: {median_steueranteil:.2f}%"
 )
 
-# =====================================================
-# MIN / MAX - PREIS
-# =====================================================
 
+# Min / Max Preis
 min_preis_index = np.argmin(preis)
 max_preis_index = np.argmax(preis)
 
@@ -182,10 +155,8 @@ ax.scatter(
     label="Preis Max"
 )
 
-# =====================================================
-# MIN / MAX - STEUER
-# =====================================================
 
+# Min / Max Steuer
 min_steuer_index = np.argmin(steuer)
 max_steuer_index = np.argmax(steuer)
 
@@ -209,10 +180,8 @@ ax.scatter(
     label="Steuer Max"
 )
 
-# =====================================================
-# MIN / MAX - STEUERANTEIL
-# =====================================================
 
+# Min / Max Steueranteil
 min_steueranteil_index = np.argmin(steueranteil)
 max_steueranteil_index = np.argmax(steueranteil)
 
@@ -236,10 +205,8 @@ ax.scatter(
     label="Steueranteil Max"
 )
 
-# =====================================================
-# TITLES
-# =====================================================
 
+# Titel
 ax.set_title(
     "Preis, Steuer und Steueranteil von Zigaretten\nDeutschland 1991–2025",
     fontsize=22,
@@ -247,66 +214,40 @@ ax.set_title(
     pad=20
 )
 
-ax.set_xlabel(
-    "Jahr",
-    fontsize=14
-)
+ax.set_xlabel("Jahr", fontsize=14)
+ax.set_ylabel("Wert", fontsize=14)
 
-ax.set_ylabel(
-    "Wert",
-    fontsize=14
-)
 
-# =====================================================
-# LEGEND
-# =====================================================
-
+# Legende
 ax.legend(
     bbox_to_anchor=(1.02, 1),
     loc="upper left",
     fontsize=11
 )
 
-# =====================================================
-# GRID
-# =====================================================
 
+# Grid
 ax.grid(
     True,
     linestyle="--",
     alpha=0.6
 )
 
-# =====================================================
-# REMOVE EXTRA BORDERS
-# =====================================================
-
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 
-# =====================================================
-# ROTATE YEARS
-# =====================================================
-
 plt.xticks(rotation=45)
-
-# =====================================================
-# SAVE GRAPH
-# =====================================================
 
 plt.tight_layout()
 
-plt.savefig(
-    os.path.join(
-        output_dir,
-        "Preis_und_Steuern.png"
-    ),
-    dpi=300,
-    bbox_inches="tight"
-)
+# Pfade
 
-print(
-    f"Grafik gespeichert in:\n{output_dir}"
-)
+speicher= os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(speicher, "data")
+output_dir = os.path.join(speicher, "Grafiken")
+
+os.makedirs(output_dir, exist_ok=True)
+
+
 
 plt.show()

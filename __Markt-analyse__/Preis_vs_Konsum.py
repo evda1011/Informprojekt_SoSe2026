@@ -6,9 +6,8 @@ import pandas as pd
 import numpy as np
 import os
 
-# =====================================================
-# PATHS
-# =====================================================
+
+# ----- Verzeichnisse -----
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,14 +21,10 @@ output_dir = os.path.join(
     "Grafiken"
 )
 
-os.makedirs(
-    output_dir,
-    exist_ok=True
-)
+os.makedirs(output_dir, exist_ok=True)
 
-# =====================================================
-# LOAD DATA
-# =====================================================
+
+# ----- Daten laden -----
 
 konsum_df = pd.read_csv(
     os.path.join(
@@ -45,9 +40,8 @@ preis_df = pd.DataFrame({
     "preis": preis_cent
 })
 
-# =====================================================
-# MERGE DATA
-# =====================================================
+
+# ----- Daten zusammenführen -----
 
 df = pd.merge(
     preis_df,
@@ -56,26 +50,22 @@ df = pd.merge(
     how="inner"
 )
 
-# =====================================================
-# STYLE
-# =====================================================
+
+# ----- Stil -----
 
 plt.style.use("seaborn-v0_8-whitegrid")
 
+
 # =====================================================
-# GRAPH 1
-# Preisentwicklung und Konsumverhalten
+# Grafik 1
 # =====================================================
 
-fig, ax1 = plt.subplots(
-    figsize=(16, 8)
-)
+fig, ax1 = plt.subplots(figsize=(16, 8))
 
 ax_price = ax1.twinx()
 
-# -----------------------------------------------------
-# KONSUM
-# -----------------------------------------------------
+
+# Konsum
 
 ax1.plot(
     df["jahr"],
@@ -94,9 +84,8 @@ ax1.fill_between(
     alpha=0.15
 )
 
-# -----------------------------------------------------
-# PREIS
-# -----------------------------------------------------
+
+# Preis
 
 ax_price.plot(
     df["jahr"],
@@ -108,9 +97,8 @@ ax_price.plot(
     label="Preis"
 )
 
-# -----------------------------------------------------
-# TREND KONSUM
-# -----------------------------------------------------
+
+# Trend Konsum
 
 z_konsum = np.polyfit(
     df["jahr"],
@@ -129,30 +117,8 @@ ax1.plot(
     label="Konsum Trend"
 )
 
-# -----------------------------------------------------
-# TREND PREIS
-# -----------------------------------------------------
 
-z_preis = np.polyfit(
-    df["jahr"],
-    df["preis"],
-    1
-)
-
-p_preis = np.poly1d(z_preis)
-
-ax_price.plot(
-    df["jahr"],
-    p_preis(df["jahr"]),
-    color="darkred",
-    linestyle="--",
-    linewidth=2.5,
-    label="Preis Trend"
-)
-
-# -----------------------------------------------------
-# TITLES
-# -----------------------------------------------------
+# Titel
 
 ax1.set_title(
     "Preisentwicklung und Konsumverhalten von Zigaretten\nDeutschland 1965–2025",
@@ -178,9 +144,8 @@ ax_price.set_ylabel(
     color="tab:red"
 )
 
-# -----------------------------------------------------
-# COLORED TICKS
-# -----------------------------------------------------
+
+# Achsen
 
 ax1.tick_params(
     axis="y",
@@ -197,9 +162,8 @@ ax1.tick_params(
     rotation=45
 )
 
-# -----------------------------------------------------
-# LEGEND
-# -----------------------------------------------------
+
+# Legende
 
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax_price.get_legend_handles_labels()
@@ -211,9 +175,8 @@ ax1.legend(
     loc="upper right"
 )
 
-# -----------------------------------------------------
-# GRID
-# -----------------------------------------------------
+
+# Raster
 
 ax1.grid(
     True,
@@ -223,18 +186,16 @@ ax1.grid(
 
 ax_price.grid(False)
 
-# -----------------------------------------------------
-# BORDERS
-# -----------------------------------------------------
+
+# Rahmen
 
 ax1.spines["top"].set_visible(False)
 ax1.spines["right"].set_visible(False)
 
 ax_price.spines["top"].set_visible(False)
 
-# -----------------------------------------------------
-# SAVE GRAPH 1
-# -----------------------------------------------------
+
+# Speichern Grafik 1
 
 plt.tight_layout()
 
@@ -249,18 +210,15 @@ plt.savefig(
 
 plt.show()
 
+
 # =====================================================
-# GRAPH 2
-# KORRELATION
+# Grafik 2
 # =====================================================
 
-fig, ax2 = plt.subplots(
-    figsize=(14, 8)
-)
+fig, ax2 = plt.subplots(figsize=(14, 8))
 
-# -----------------------------------------------------
-# SCATTER
-# -----------------------------------------------------
+
+# Punkte
 
 ax2.scatter(
     df["preis"],
@@ -271,9 +229,8 @@ ax2.scatter(
     label="Datenpunkte"
 )
 
-# -----------------------------------------------------
-# REGRESSION
-# -----------------------------------------------------
+
+# Regression
 
 z = np.polyfit(
     df["preis"],
@@ -292,9 +249,8 @@ ax2.plot(
     label="Regression"
 )
 
-# -----------------------------------------------------
-# KORRELATION
-# -----------------------------------------------------
+
+# Korrelation
 
 corr = np.corrcoef(
     df["preis"],
@@ -314,9 +270,8 @@ ax2.text(
     )
 )
 
-# -----------------------------------------------------
-# TITLES
-# -----------------------------------------------------
+
+# Titel
 
 ax2.set_title(
     "Zusammenhang zwischen Preis und Konsum",
@@ -334,18 +289,16 @@ ax2.set_ylabel(
     fontsize=14
 )
 
-# -----------------------------------------------------
-# LEGEND
-# -----------------------------------------------------
+
+# Legende
 
 ax2.legend(
     fontsize=11,
     loc="upper right"
 )
 
-# -----------------------------------------------------
-# GRID
-# -----------------------------------------------------
+
+# Raster
 
 ax2.grid(
     True,
@@ -353,16 +306,14 @@ ax2.grid(
     alpha=0.6
 )
 
-# -----------------------------------------------------
-# BORDERS
-# -----------------------------------------------------
+
+# Rahmen
 
 ax2.spines["top"].set_visible(False)
 ax2.spines["right"].set_visible(False)
 
-# -----------------------------------------------------
-# SAVE GRAPH 2
-# -----------------------------------------------------
+
+# Speichern Grafik 2
 
 plt.tight_layout()
 
@@ -376,7 +327,3 @@ plt.savefig(
 )
 
 plt.show()
-
-print(
-    f"Grafiken gespeichert in:\n{output_dir}"
-)
