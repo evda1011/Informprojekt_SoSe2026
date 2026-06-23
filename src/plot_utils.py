@@ -1,27 +1,52 @@
 import matplotlib.pyplot as plt
 
 
-def plot_linie(df, x_spalte, y_spalte, titel, x_label, y_label):
+def plot_linie(
+    df,
+    x_spalte,
+    y_spalte,
+    titel,
+    x_label,
+    y_label,
+    speichern_unter=None
+):
     plt.figure(figsize=(10, 5))
     plt.plot(df[x_spalte], df[y_spalte], marker="o")
+
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(titel)
-    plt.tight_layout()
-    plt.show()
 
+    plt.tight_layout()
+
+    if speichern_unter is not None:
+        plt.savefig(speichern_unter, dpi=300)
+
+    plt.show()
 
 ###art grafik--------------
-
-def plot_balken(df, x_spalte, y_spalte, titel, x_label, y_label):
+def plot_balken(
+    df,
+    x_spalte,
+    y_spalte,
+    titel,
+    x_label,
+    y_label,
+    speichern_unter=None
+):
     plt.figure(figsize=(10, 5))
     plt.bar(df[x_spalte], df[y_spalte])
+
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(titel)
-    plt.tight_layout()
-    plt.show()
 
+    plt.tight_layout()
+
+    if speichern_unter is not None:
+        plt.savefig(speichern_unter, dpi=300)
+
+    plt.show()
 
 
 
