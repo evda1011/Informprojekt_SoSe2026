@@ -12,15 +12,9 @@ matplotlib.use("Agg")
 plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.style.use('ggplot')
 
-# Путь к папке скрипта
 skript_verzeichnis = os.path.dirname(os.path.abspath(__file__))
 
-# ====================== ПУТЬ К ДАННЫМ ======================
-sterblichkeitsdatei = os.path.join(
-    skript_verzeichnis,
-    'data',
-    'statistischer-bericht-todesursachen-2120400247005.xlsx'
-)
+sterblichkeitsdatei = os.path.join( skript_verzeichnis, 'data', 'statistischer-bericht-todesursachen-2120400247005.xlsx')
 
 # =========================================================
 # DATEI PRÜFEN
@@ -31,8 +25,6 @@ if not os.path.exists(sterblichkeitsdatei):
         f"Erwarteter Pfad: {sterblichkeitsdatei}\n"
         f"Bitte stelle sicher, dass die Datei in Ordner 'data' liegt."
     )
-
-print(f"✅ Datei gefunden: {sterblichkeitsdatei}")
 
 # =========================================================
 # SAF-WERTE
@@ -57,7 +49,7 @@ krankheiten = {
 }
 
 # =========================================================
-# GRAFIKEN SPEICHERН (в папку Grafen)
+# GRAFIKEN SPEICHERН (in Grafen)
 def grafik_speichern(figur, dateiname):
     grafiken_ordner = os.path.join(skript_verzeichnis, 'Grafen')
     os.makedirs(grafiken_ordner, exist_ok=True)
@@ -76,23 +68,23 @@ def grafik_speichern(figur, dateiname):
 
 # =========================================================
 # DATEN LADEN
-df_gesamt = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b09', header=3)
-df_maenner = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b10', header=3)
-df_frauen = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b11', header=3)
+df_gesamt = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b09', header=2)
+df_maenner = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b10', header=2)
+df_frauen = pd.read_excel(sterblichkeitsdatei, sheet_name='23211-b11', header=2)
 
 # =========================================================
-# ICD-SUCHE (улучшено)
+# ICD-SUCHE
 def todesfaelle_nach_icd(df, icd_code):
     erste_spalte = df.iloc[:, 0].astype(str).str.strip()
-    # Более надёжный поиск для кодов вроде I20-I25
-    maske = erste_spalte.str.startswith(icd_code, na=False)
+    for idx, text in erste_spalte.items():
+        code = text.split(":")[0].strip()
+        if code == icd_code:
+            wert = df.loc[idx, df.columns[1]]
+            try:
+                return int(wert)
+            except (ValueError, TypeError):
+                return 0
 
-    if maske.any():
-        wert = df.loc[maske, df.columns[1]].iloc[0]
-        try:
-            return int(wert)
-        except (ValueError, TypeError):
-            return 0
     return 0
 
 # =========================================================
@@ -101,7 +93,7 @@ gesamtsterbefaelle = todesfaelle_nach_icd(df_gesamt, 'A00-U85')
 print(f"Gesamte Sterbefälle 2024: {gesamtsterbefaelle:,}")
 
 # =========================================================
-# ДАННЫЕ ОБРАБОТКА
+# Datenbearbeitung
 ergebnisse = []
 
 for code, name in krankheiten.items():
@@ -124,12 +116,12 @@ df_ergebnisse = df_ergebnisse.sort_values(
     by='Zugeschriebene_Todesfälle', ascending=False
 ).reset_index(drop=True)
 
-# Контроль данных (важно для диагностики)
+# Datenkontroll
 print("\n=== Kontrolle der Daten ===")
 print(df_ergebnisse)
 
 # =========================================================
-# CSV EXPORT (в папку data)
+# CSV EXPORT (in data)
 csv_datei = os.path.join(skript_verzeichnis, 'data', 'rauchbedingte_sterblichkeit_2024.csv')
 df_ergebnisse.to_csv(
     csv_datei,
@@ -143,7 +135,7 @@ print(f"CSV сохранён: {csv_datei}")
 farben = plt.cm.Reds(np.linspace(0.4, 0.9, len(df_ergebnisse)))
 
 # =========================================================
-# Balkendiagramm (адаптивный offset)
+# Balkendiagramm
 def balkendiagramm_erstellen():
     figur, achse = plt.subplots(figsize=(11, 7))
     achse.barh(
@@ -151,8 +143,8 @@ def balkendiagramm_erstellen():
         df_ergebnisse['Zugeschriebene_Todesfälle'],
         color=farben
     )
-    achse.set_title('Zugeschriebene Sterbefälle durch Rauchen (2024)')
-    achse.set_xlabel('Zugeschriebene Todesfälle')
+    achse.set_title('Geschätzte rauchbedingte Todesfälle (SAF-Modell, 2024)')
+    achse.set_xlabel('Geschätzte dem Rauchen zurechenbare Todesfälle')
     achse.invert_yaxis()
 
     max_wert = df_ergebnisse['Zugeschriebene_Todesfälle'].max()
@@ -171,10 +163,8 @@ def geschlechterdiagramm_erstellen():
     x = np.arange(len(df_ergebnisse))
     breite = 0.35
 
-    achse.bar(x - breite / 2, df_ergebnisse['Todesfälle_Männer'], breite,
-              label='Männer', color='#1760c7')
-    achse.bar(x + breite / 2, df_ergebnisse['Todesfälle_Frauen'], breite,
-              label='Frauen', color="#ff67a4")
+    achse.bar(x - breite / 2, df_ergebnisse['Todesfälle_Männer'], breite, label='Männer', color='#1760c7')
+    achse.bar(x + breite / 2, df_ergebnisse['Todesfälle_Frauen'], breite, label='Frauen', color="#ff67a4")
 
     achse.set_title('Rauchbedingte Sterbefälle nach Geschlecht')
     achse.set_xticks(x)
@@ -371,24 +361,50 @@ def korrelationsmatrix_erstellen():
     except Exception as fehler:
         print(f"Fehler bei der Korrelationsanalyse: {fehler}")
 
-# =========================================================
-# ЗАПУСК
+# ========================================================
+# Start
 if __name__ == "__main__":
-    balkendiagramm_erstellen()
-    geschlechterdiagramm_erstellen()
-    kreisdiagramm_erstellen()
-    zeitreihenanalyse_erstellen()
-    gesamtanalyse_erstellen()
-    korrelationsmatrix_erstellen()
 
-    print("\n" + "="*60)
-    print(df_ergebnisse[['Ursache', 'Zugeschriebene_Todesfälle']])
+    print("\n" + "=" * 80)
+    print("ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT")
+    print("=" * 80)
 
-    # Интерпретация
-    hauptursache = df_ergebnisse.iloc[0]['Ursache']
-    print("\nINTERPRETATION")
-    print("=" * 60)
-    print(f"Die wichtigste tabakassoziierte Todesursache ist: {hauptursache}")
-    print("Hohe SAF-Werte bei Lungenkrebs und COPD zeigen den starken Zusammenhang mit Rauchen.")
-    print("Die geschlechtsspezifische Analyse zeigt deutliche Unterschiede zwischen Männern und Frauen.")
-    print("\nAnalyse erfolgreich abgeschlossen.")
+    print("\nKONTROLLE DER DATEN")
+    print("-" * 80)
+
+    print(df_ergebnisse[
+            [
+                'ICD',
+                'Ursache',
+                'Todesfälle_Gesamt',
+                'Todesfälle_Männer',
+                'Todesfälle_Frauen',
+                'Zugeschriebene_Todesfälle'
+            ]])
+  
+    # Gesamtwerte
+    total_attributable = df_ergebnisse['Zugeschriebene_Todesfälle'].sum()
+    hauptursache = df_ergebnisse.loc[ df_ergebnisse['Zugeschriebene_Todesfälle'].idxmax(), 'Ursache']
+
+
+def erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle):
+    """
+    Erstellt eine textliche Interpretation der Ergebnisse.
+    """
+    total_attributable = df_ergebnisse['Zugeschriebene_Todesfälle'].sum()
+
+    hauptursache = df_ergebnisse.loc[df_ergebnisse['Zugeschriebene_Todesfälle'].idxmax(), 'Ursache']
+
+    text = []
+
+    text.append("INTERPRETATION DER ERGEBNISSE")
+    text.append("-" * 80)
+
+    text.append("Hinweis: Die dargestellten rauchbedingten Todesfälle sind statistische Schätzwerte auf Grundlage des Smoking Attributable Fraction (SAF)-Modells.")
+    text.append(f"Geschätzte tabakassoziierte Todesfälle: {total_attributable:,}".replace(",", "."))
+    text.append(f"Anteil an allen Sterbefällen: {(total_attributable / gesamtsterbefaelle * 100):.1f}%")
+    text.append(f"Wichtigste tabakassoziierte Todesursache: {hauptursache}")
+
+    return "\n".join(text)
+
+print(erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle))

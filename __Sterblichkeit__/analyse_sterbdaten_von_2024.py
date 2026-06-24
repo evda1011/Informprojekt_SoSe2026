@@ -41,10 +41,10 @@ causes = {
 # 2. DATEN LADEN
 
 # Теперь передаем объект Path вместо обычной строки
-df_total = pd.read_excel(file_path, sheet_name='23211-b09', header=0)
-df_male = pd.read_excel(file_path, sheet_name='23211-b10', header=0)
-df_female = pd.read_excel(file_path, sheet_name='23211-b11', header=0)
-df_time = pd.read_excel(file_path, sheet_name='23211-b01', header=0)
+df_total = pd.read_excel(file_path, sheet_name='23211-b09', header=2)
+df_male = pd.read_excel(file_path, sheet_name='23211-b10', header=2)
+df_female = pd.read_excel(file_path, sheet_name='23211-b11', header=2)
+df_time = pd.read_excel(file_path, sheet_name='23211-b01', header=2)
 
 print(f"\nDaten erfolgreich geladen aus: {file_path.name}")
 
@@ -57,10 +57,7 @@ def find_row_by_icd(df, code):
     for idx, row in df.iterrows():
         cell = str(row.iloc[0]).strip()
 
-        if (
-            cell.startswith(code)
-            or cell.startswith(f"{code}:")
-        ):
+        if cell.split(":")[0].strip() == code:
             return row
 
     return None
