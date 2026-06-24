@@ -166,7 +166,7 @@ def geschlechterdiagramm_erstellen():
     achse.bar(x - breite / 2, df_ergebnisse['Todesfälle_Männer'], breite, label='Männer', color='#1760c7')
     achse.bar(x + breite / 2, df_ergebnisse['Todesfälle_Frauen'], breite, label='Frauen', color="#ff67a4")
 
-    achse.set_title('Rauchbedingte Sterbefälle nach Geschlecht')
+    achse.set_title('Todesfälle nach Geschlecht bei ausgewählten Erkrankungen')
     achse.set_xticks(x)
     achse.set_xticklabels(df_ergebnisse['Ursache'], rotation=35, ha='right')
     achse.set_ylabel('Todesfälle')
@@ -364,10 +364,17 @@ def korrelationsmatrix_erstellen():
 # ========================================================
 # Start
 if __name__ == "__main__":
+    balkendiagramm_erstellen()
+    geschlechterdiagramm_erstellen()
+    kreisdiagramm_erstellen()
+    zeitreihenanalyse_erstellen()
+    gesamtanalyse_erstellen()
+    korrelationsmatrix_erstellen()
 
-    print("\n" + "=" * 80)
+
+    print("\n" + "-" * 80)
     print("ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT")
-    print("=" * 80)
+    print("\n" + "-" * 80)
 
     print("\nKONTROLLE DER DATEN")
     print("-" * 80)
@@ -406,5 +413,3 @@ def erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle):
     text.append(f"Wichtigste tabakassoziierte Todesursache: {hauptursache}")
 
     return "\n".join(text)
-
-print(erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle))
