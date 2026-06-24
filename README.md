@@ -10,15 +10,14 @@
 - Altersgruppen Unterschiede basierend auf Konsumanalyse
 - Punkt 4.1 Verbreitung des Rauchens unter Jugendlichen in Deutschland nach Geschlecht (2001–2023) (S)
 - Punkt 2.3 Preis vs. Konsum (S)
-- Punkt 5.1 Rauchverhalten nach Bundesländern (S) ***kann weggelassen werden***
-- Punkt 5.4 Vergleich des Zigarettenkonsums in Deutschland und der Schweiz nach Altersgruppen (2017) (S)
+- Punkt 5.1 Rauchverhalten nach Bundesländern (S)
 - Prognose: „Wie wirkt sich eine Änderung der Zigarettenpreise langfristig auf den Konsum aus?“ (S) 1.TEIL
 
 3) STERBANALYSE
-- Zusammenhang zwischen Raucherquote und tabakbedingter Sterblichkeit (D)
-- Punkt 5.3 Alter + Geschlecht + Tdesfälle (2019, veröffentlicht am 03.03.26) (D)
+- Rauchbedingte Sterblichkeit in Deutschland im Jahr 2024 (D)
+-> Globale Analyse 2024
 
 4) FAZIT UND PROGNOSEN
 - E-Zigaretten, Heat-not-Burn und der Wandel des Tabakmarkts (D)
 - Prognose: „Wie wirkt sich eine Änderung der Zigarettenpreise langfristig auf den Konsum aus?“ (S) 2.TEIL
--Allgemeines Fazit der Arbeit (S & D)
+- Allgemeines Fazit der Arbeit (S & D)
