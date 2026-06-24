@@ -407,7 +407,8 @@ def erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle):
     text.append("INTERPRETATION DER ERGEBNISSE")
     text.append("-" * 80)
 
-    text.append("Hinweis: Die dargestellten rauchbedingten Todesfälle sind statistische Schätzwerte auf Grundlage des Smoking Attributable Fraction (SAF)-Modells.")
+    text.append("Hinweis: Die dargestellten rauchbedingten Todesfälle sind statistische Schätzwerte.")
+    text.append("Auf Grundlage des Smoking Attributable Fraction (SAF)-Modells.")
     text.append(f"Geschätzte tabakassoziierte Todesfälle: {total_attributable:,}".replace(",", "."))
     text.append(f"Anteil an allen Sterbefällen: {(total_attributable / gesamtsterbefaelle * 100):.1f}%")
     text.append(f"Wichtigste tabakassoziierte Todesursache: {hauptursache}")
