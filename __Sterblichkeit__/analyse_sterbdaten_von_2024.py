@@ -1,21 +1,21 @@
 import pandas as pd
 import numpy as np
 
-# ============================================================
 # ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT IN DEUTSCHLAND
 # Kombination beider Skripte in einem vollständigen Workflow
-# ============================================================
 
-print("=" * 90)
 print("ANALYSE DER RAUCHBEDINGTEN STERBLICHKEIT IN DEUTSCHLAND")
 print("Deutschland, 2024")
-print("=" * 90)
 
-# ============================================================
-# 1. KONFIGURATION
-# ============================================================
 
-file_path = 'statistischer-bericht-todesursachen-2120400247005.xlsx'
+# 1. KONFIGURATION & PFADE
+
+from pathlib import Path
+
+# Findung des aktuellen Skriptverzeichnisses
+script_dir = Path(__file__).resolve().parent
+file_path = script_dir / 'data' / 'statistischer-bericht-todesursachen-2120400247005.xlsx'
+
 
 # Smoking Attributable Fractions (WHO / CDC / Literatur)
 SAF = {
@@ -38,25 +38,17 @@ causes = {
     'C25': 'Bauchspeicheldrüsenkrebs',
 }
 
-# ============================================================
 # 2. DATEN LADEN
-# ============================================================
 
-# Gesamt
+# Теперь передаем объект Path вместо обычной строки
 df_total = pd.read_excel(file_path, sheet_name='23211-b09', header=0)
-
-# Männer / Frauen
 df_male = pd.read_excel(file_path, sheet_name='23211-b10', header=0)
 df_female = pd.read_excel(file_path, sheet_name='23211-b11', header=0)
-
-# Zeitreihe
 df_time = pd.read_excel(file_path, sheet_name='23211-b01', header=0)
 
-print("\nDaten erfolgreich geladen.")
+print(f"\nDaten erfolgreich geladen aus: {file_path.name}")
 
-# ============================================================
 # 3. HILFSFUNKTIONEN
-# ============================================================
 
 def find_row_by_icd(df, code):
     """
@@ -86,9 +78,7 @@ def get_deaths_by_icd(df, code):
     return 0
 
 
-# ============================================================
 # 4. GESAMTWERTE
-# ============================================================
 
 total_deaths = get_deaths_by_icd(df_total, 'A00-U85')
 total_cancer = get_deaths_by_icd(df_total, 'C00-C97')
@@ -96,9 +86,7 @@ total_cancer = get_deaths_by_icd(df_total, 'C00-C97')
 print(f"\nGesamtzahl aller Todesfälle: {total_deaths:,.0f}")
 print(f"Gesamtzahl Krebstodesfälle:  {total_cancer:,.0f}")
 
-# ============================================================
 # 5. DETAILANALYSE DER TODESURSACHEN
-# ============================================================
 
 results = []
 
@@ -137,9 +125,7 @@ df_results = df_results.sort_values(
     ascending=False
 )
 
-# ============================================================
 # 6. TABELLENAUSGABE
-# ============================================================
 
 print("\n" + "=" * 110)
 print("DETAILLIERTE ANALYSE DER RAUCHBEDINGTEN TODESURSACHEN")
@@ -169,21 +155,13 @@ for _, row in df_results.iterrows():
 
 print("-" * 110)
 
-print(
-    f"{'ALLE TODESFÄLLE':35} | "
-    f"{total_deaths:>12,.0f}"
-)
+print( f"{'ALLE TODESFÄLLE':35} | " f"{total_deaths:>12,.0f}")
 
-print(
-    f"{'ALLE KREBSTODESFÄLLE':35} | "
-    f"{total_cancer:>12,.0f}"
-)
+print( f"{'ALLE KREBSTODESFÄLLE':35} | " f"{total_cancer:>12,.0f}")
 
 print("=" * 110)
 
-# ============================================================
 # 7. KURZANALYSE / WICHTIGSTE FAKTEN
-# ============================================================
 
 print("\n" + "=" * 90)
 print("WICHTIGSTE FAKTEN AUF EINEN BLICK")
@@ -200,14 +178,9 @@ stroke = get_deaths_by_icd(df_total, 'I60-I69')
 ami = get_deaths_by_icd(df_total, 'I21')
 
 # Direkte Folgen
-direct_smoking = (
-    lung_cancer
-    + copd
-    + esophageal_cancer
-    + pancreatic_cancer
-)
+direct_smoking = (lung_cancer+ copd + esophageal_cancer + pancreatic_cancer)
 
-print("\n1️⃣ DIREKT MIT RAUCHEN VERBUNDENE ERKRANKUNGEN")
+print("\n 1 DIREKT MIT RAUCHEN VERBUNDENE ERKRANKUNGEN")
 print(f"   • Lungenkrebs:                 {lung_cancer:>10,.0f}")
 print(f"   • COPD:                        {copd:>10,.0f}")
 print(f"   • Speiseröhrenkrebs:           {esophageal_cancer:>10,.0f}")
@@ -220,7 +193,7 @@ print(
 )
 
 # Herz-Kreislauf
-print("\n2️⃣ HERZ-KREISLAUF-ERKRANKUNGEN")
+print("\n 2 HERZ-KREISLAUF-ERKRANKUNGEN")
 print(f"   • Ischämische Herzkrankheiten: {ihd:>10,.0f}")
 print(f"   • Akuter Myokardinfarkt:       {ami:>10,.0f}")
 print(f"   • Schlaganfall:                {stroke:>10,.0f}")
@@ -234,7 +207,7 @@ print(
 # Gesamt
 total_smoking_related = direct_smoking + ihd + stroke
 
-print("\n3️⃣ GESAMTERGEBNIS")
+print("\n 3 GESAMTERGEBNIS")
 print(
     f"   Mit Rauchen direkt oder indirekt verbundene Todesfälle:"
 )
@@ -248,13 +221,12 @@ print(
 )
 
 # Kontext
-print("\n4️⃣ KONTEXT")
+print("\n 4 KONTEXT")
 print(
     f"   • Alle Krebstodesfälle:           {total_cancer:,.0f}"
 )
 
-print(
-    f"   • Anteil Lungenkrebs an Krebs:    "
+print(f"   • Anteil Lungenkrebs an Krebs:    "
     f"{lung_cancer / total_cancer * 100:.1f}%"
 )
 
@@ -270,9 +242,7 @@ print(
     f"{'JA' if ihd > lung_cancer + copd else 'NEIN'}"
 )
 
-# ============================================================
-# 8. RAUCHEN ZURECHENBARE TODESFÄLLE (SAF)
-# ============================================================
+# 8. RAUCHEN ZURECHENBARE TODESFÄLLE (SAF-MODELL)
 
 total_attributable = df_results[
     'Zugeschriebene_Todesfälle'
@@ -294,16 +264,3 @@ print(
     f"{total_attributable / total_deaths * 100:.1f}% "
     f"aller Todesfälle."
 )
-
-# ============================================================
-# 9. ZEITREIHEN
-# ============================================================
-
-print("\n" + "=" * 90)
-print("ZEITREIHEN DER GESAMTSTERBLICHKEIT")
-print("=" * 90)
-
-try:
-    print(df_time[['Jahr', 'Insgesamt']].tail(15))
-except:
-    print("Zeitreihenspalten konnten nicht automatisch erkannt werden.")
