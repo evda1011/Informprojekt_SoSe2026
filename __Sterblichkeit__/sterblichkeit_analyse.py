@@ -329,37 +329,6 @@ def gesamtanalyse_erstellen():
 
     grafik_speichern(figur, '04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png')
 
-# =========================================================
-# Korrelationsmatrix
-def korrelationsmatrix_erstellen():
-    try:
-        korrelationsdaten = pd.DataFrame({
-            'Raucherquote': [29, 28, 27, 26, 25, 24],
-            'Lungenkrebs': [38000, 39000, 40000, 41000, 42000, 45148],
-            'COPD': [25000, 26000, 27000, 29000, 31000, 33650],
-            'Herzkrankheiten': [120000, 118000, 117000, 116000, 115000, 113473]
-        })
-
-        matrix = korrelationsdaten.corr()
-
-        figur, achse = plt.subplots(figsize=(8, 6))
-        bild = achse.imshow(matrix, cmap='Reds')
-
-        achse.set_xticks(np.arange(len(matrix.columns)))
-        achse.set_yticks(np.arange(len(matrix.columns)))
-        achse.set_xticklabels(matrix.columns, rotation=45, ha='right')
-        achse.set_yticklabels(matrix.columns)
-
-        for i in range(len(matrix.columns)):
-            for j in range(len(matrix.columns)):
-                achse.text(j, i, f"{matrix.iloc[i, j]:.2f}", ha='center', va='center')
-
-        plt.colorbar(bild)
-        achse.set_title('Korrelationsmatrix')
-        plt.tight_layout()
-        grafik_speichern(figur, '05_Korrelationsmatrix.png')
-    except Exception as fehler:
-        print(f"Fehler bei der Korrelationsanalyse: {fehler}")
 
 # ========================================================
 # Start
@@ -369,7 +338,6 @@ if __name__ == "__main__":
     kreisdiagramm_erstellen()
     zeitreihenanalyse_erstellen()
     gesamtanalyse_erstellen()
-    korrelationsmatrix_erstellen()
 
 
     print("\n" + "-" * 80)
