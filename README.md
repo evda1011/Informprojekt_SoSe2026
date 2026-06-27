@@ -1,6 +1,3 @@
-
----
-
 # Tabak und Nikotin in Deutschland – Zahlen, Daten, Fakten
 
 **Informprojekt SoSe 2026**
@@ -15,8 +12,8 @@
 
 Das Repository enthält eine vollständige Analyse des Zigarettenkonsums in Deutschland. Das Projekt gliedert sich in fünf Teilanalysen:
 
-- **Rauchverhalten nach Alter und Geschlecht**
-- **Rauchverhalten nach Bundesländern**
+- **Konsum** – Rauchverhalten nach Alter und Geschlecht
+- **Bundesländer** – regionale Unterschiede im Rauchverhalten
 - **Marktanalyse** – Preisentwicklung, Steuerbelastung und Konsumtrends
 - **Preisprognose** – zukünftige Entwicklung von Preis und Konsum
 - **Sterblichkeit** – tabakassoziierte Todesfälle und Erkrankungen
@@ -110,17 +107,20 @@ jupyter notebook
 
 ## Ergebnisse im Überblick
 
-### 1. Rauchverhalten
+### 1. Konsumverhalten
 - Männer rauchen häufiger als Frauen (2024)
-- Höchster Raucheranteil in Mecklenburg-Vorpommern, niedrigster im Saarland
 - Junge Erwachsene (18–24) zeigen die höchste Raucherquote
 
-### 2. Preisentwicklung und Konsum
+### 2. Regionale Unterschiede
+- Höchster Raucheranteil in Mecklenburg-Vorpommern
+- Niedrigster Raucheranteil im Saarland
+
+### 3. Markt und Preisentwicklung
 - Kontinuierlicher Rückgang des Pro-Kopf-Konsums seit den 1960er Jahren
 - Steigende Zigarettenpreise durch Tabaksteuererhöhungen
 - Zwischen Preisentwicklung und Konsum zeigt sich ein negativer Zusammenhang
 
-### 3. Gesundheitliche Folgen
+### 4. Gesundheitliche Folgen
 - Tabakassoziierte Sterblichkeit betrifft überwiegend Erkrankungen der Atemwege und des Herz-Kreislauf-Systems
 - Deutliche geschlechtsspezifische Unterschiede in der Sterblichkeit
 
