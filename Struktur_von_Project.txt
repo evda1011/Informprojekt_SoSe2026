@@ -1,32 +1,24 @@
 Informprojekt_SoSe2026/
 │
-├── .gitignore
-├── poetry.lock
-├── pyproject.toml
-├── README.md
-├── Struktur_von_Project.txt
-├── Performance_Final.ipynb
-│
 ├── .ipynb_checkpoints/
+│
 ├── .venv/
+│
+├── grafiken/
+│
 ├── src/
 │
 ├── __Konsum_nach_Geschlecht_und_Alter__/
+│   ├── Grafiken/
+│   │   ├── Tabakkonsum_nach_Alter.png
+│   │   └── Tabakkonsum_nach_Geschlecht.png
 │   ├── Konsum_nach_Geschlecht_und_altersgruppe.ipynb
 │   ├── statistic_id1170342_praevalenz-von-tabakkonsum-in-deutschland-nach-geschlecht_daten_bereinigung.xlsx
-│   ├── statistic_id596838_tabakraucher-in-deutschland-nach-altersgruppen-bis-2024_daten_bereinigung.xlsx
-│   └── grafiken/
-│       └── tabakkonsum_geschlecht.png
+│   └── statistic_id596838_tabakraucher-in-deutschland-nach-altersgruppen-bis-2024_daten_bereinigung.xlsx
 │
-├── __Markt-analyse__/
-│   ├── Konsumverbrauch.py
-│   ├── Preis_und_Steuern.ipynb
-│   ├── Preis_und_Steuern.py
-│   ├── Preis_vs_Konsum.py
-│   ├── PREISANALYSE 2000-2025.txt
-│   ├── __init__.py
-│   │
+├── __Marktanalyse__/
 │   ├── data/
+│   │   ├── __pycache__/
 │   │   ├── konsumverbrauch_zigaretten.csv
 │   │   ├── preis_und_steuer.csv
 │   │   ├── preis_zigaretten.py
@@ -35,48 +27,32 @@ Informprojekt_SoSe2026/
 │   │   ├── statistic_id37838_durchschnittspreis-von-zigaretten-und-enthaltene-tabaksteuer-in-deutschland-bis-2025.xlsx
 │   │   ├── statistic_id6209_pro-kopf-verbrauch-von-zigaretten-in-deutschland-bis-2025.xlsx
 │   │   ├── statistic_id6213_steuerwerte-der-tabaksteuer-fuer-zigaretten-in-deutschland-bis-2025.xlsx
-│   │   └── __pycache__/
-│   │
+│   │   └── __init__.py
 │   ├── Grafiken/
 │   │   ├── Preis_und_Steuern.png
 │   │   ├── Preis_vs_Konsum_Korrelation.png
 │   │   ├── Preis_vs_Konsum_Zeitverlauf.png
 │   │   ├── tabak_timeline.png
 │   │   └── zigaretten_trend.png
-│   │
-│   └── Tabakpraevention_in_DE/
+│   ├── Markt-Analyse.ipynb
+│   ├── Konsumverbrauch.py
+│   ├── Preis_und_Steuern.py
+│   └── Preis_vs_Konsum.py
 │
-├── __Preis_vs_Konsum__/
-│   ├── Preis_vs_Konsum.ipynb
-│   ├── preis_vs_konsum.py
-│   ├── _durchschnittlicher-zigarettenpreis-in-deutschland.xlsx
-│   ├── _pro-kopf-verbrauch-von-zigaretten-in-deutschland.xlsx
-│   └── grafiken/
-│       ├── entwicklung_preis_konsum.png
-│       └── zusammenhang_preis_konsum.png
-│
-├── __Prognose_der_Zigarrttenpreis__/
+├── __Preisprognose__/
+│   ├── Grafiken/
+│   │   └── prognose_kombiniert.png
 │   ├── Prognose.ipynb
 │   ├── _durchschnittlicher-zigarettenpreis-in-deutschland.xlsx
-│   ├── _pro-kopf-verbrauch-von-zigaretten-in-deutschland.xlsx
-│   └── grafiken/
-│       ├── prognose_kombiniert.png
-│       ├── prognose_konsum.png
-│       ├── prognose_preis.png
-│       └── prognose_zigaretten.png
+│   └── _pro-kopf-verbrauch-von-zigaretten-in-deutschland.xlsx
 │
 ├── __Rauchverhalten_nach_Bundeslaendern__/
+│   ├── Grafiken/
+│   │   └── raucheranteil_bundesland.png
 │   ├── Rauchverhalten_nach_Bundesländern.ipynb
 │   └── Bundesländern.xlsx
 │
 ├── __Sterblichkeit__/
-│   ├── Analyse_der_rauchbedingte_Sterblichkeit_in_DE_2024.txt
-│   ├── analyse_sterbdaten_von_2024.py
-│   ├── sterblichkeit-analyse.py
-│   ├── sterblichkeit-analyse copy.py
-│   ├── rauchquote.py
-│   ├── Plan für Analyse der Sterblichkeit durch Rauchen in Deutschland.md
-│   │
 │   ├── data/
 │   │   ├── rauchbedingte_sterblichkeit_2024.csv
 │   │   ├── statistic_id1412286_gesundheitsbewusstes-verhalten-nach-lebensbereichen-und-geschlecht-2023.xlsx
@@ -84,22 +60,21 @@ Informprojekt_SoSe2026/
 │   │   ├── statistic_id273406_lebenserwartung-in-deutschland-bei-geburt-nach-geschlecht-bis-2070.xlsx
 │   │   ├── statistic_id495775_tabakbedingte-sterbefaelle-in-deutschland-nach-geschlecht.xlsx
 │   │   └── statistischer-bericht-todesursachen-2120400247005.xlsx
-│   │
-│   └── Grafen/
-│       ├── 01_Zugeschriebene_Sterblichkeit.png
-│       ├── 02_Sterblichkeit_nach_Geschlecht.png
-│       ├── 03_Struktur_Rauchbedingte_Sterblichkeit.png
-│       ├── 04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png
-│       └── 05_Korrelationsmatrix.png
+│   ├── Grafiken/
+│   │   ├── 01_Zugeschriebene_Sterblichkeit.png
+│   │   ├── 02_Sterblichkeit_nach_Geschlecht.png
+│   │   ├── 03_Struktur_Rauchbedingte_Sterblichkeit.png
+│   │   └── 04_Gesamtanalyse_Rauchbedingte_Sterblichkeit.png
+│   ├── __pycache__/
+│   │   ├── analyse_sterbdaten_von_2024.cpython-313.pyc
+│   │   └── sterblichkeit_analyse.cpython-313.pyc
+│   ├── Sterblichkeit.ipynb
+│   ├── analyse_sterbdaten_von_2024.py
+│   └── sterblichkeit_analyse.py
 │
-└── __Zielgroup__/
-    ├── raucher_visualization.ipynb
-    ├── raucher_daten_jugend_1979_2023_.py
-    ├── clean_data.csv
-    ├── raucher_nieraucher_trend.png
-    ├── raucher_ratio.png
-    ├── raucher_trend.png
-    ├── raucher_verhaeltnis.png
-    └── __pycache__/
-        ├── raucher_daten_jugend_1979_2023_.cpython-312.pyc
-        └── raucher_daten_jugend_1979_2023_.cpython-313.pyc
+├── .gitignore
+├── Performance_Final.ipynb
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── Struktur_von_Project.txt

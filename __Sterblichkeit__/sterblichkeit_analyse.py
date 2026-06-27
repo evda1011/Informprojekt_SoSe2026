@@ -60,10 +60,8 @@ def grafik_speichern(figur, dateiname):
         speicherpfad,
         dpi=200,
         facecolor="white",
-        bbox_inches='tight'
-    )
-
-    print(f"Grafik gespeichert: {speicherpfad}")
+        bbox_inches='tight')
+    
     plt.close(figur)
 
 # =========================================================
@@ -123,12 +121,7 @@ print(df_ergebnisse)
 # =========================================================
 # CSV EXPORT (in data)
 csv_datei = os.path.join(skript_verzeichnis, 'data', 'rauchbedingte_sterblichkeit_2024.csv')
-df_ergebnisse.to_csv(
-    csv_datei,
-    index=False,
-    encoding='utf-8-sig'
-)
-print(f"CSV сохранён: {csv_datei}")
+df_ergebnisse.to_csv(csv_datei, index=False, encoding='utf-8-sig')
 
 # =========================================================
 # FARBPALETTE
@@ -185,8 +178,7 @@ def kreisdiagramm_erstellen():
         startangle=90,
         colors=farben,
         pctdistance=0.78,
-        wedgeprops=dict(linewidth=0.3, edgecolor='white')
-    )
+        wedgeprops=dict(linewidth=0.3, edgecolor='white'))
 
     for autotext in autotexte:
         autotext.set_color('white')
@@ -198,8 +190,7 @@ def kreisdiagramm_erstellen():
         df_ergebnisse['Ursache'],
         title='Ursache',
         loc='center left',
-        bbox_to_anchor=(1.05, 0.5)
-    )
+        bbox_to_anchor=(1.05, 0.5))
 
     achse.set_title('Struktur der rauchbedingten Sterblichkeit')
     achse.set_aspect('equal')
@@ -265,15 +256,15 @@ def gesamtanalyse_erstellen():
         df_ergebnisse['Todesfälle_Männer'],
         breite,
         label='Männer',
-        color='#1760c7'
-    )
+        color='#1760c7')
+    
     achsen[0, 1].bar(
         x + breite / 2,
         df_ergebnisse['Todesfälle_Frauen'],
         breite,
         label='Frauen',
-        color='#ff67a4'
-    )
+        color='#ff67a4')
+    
     achsen[0, 1].set_xticks(x)
     achsen[0, 1].set_xticklabels(df_ergebnisse['Ursache'], rotation=40, ha='right')
     achsen[0, 1].legend()
@@ -286,8 +277,7 @@ def gesamtanalyse_erstellen():
         startangle=90,
         colors=farben,
         pctdistance=0.78,
-        wedgeprops=dict(linewidth=0.3, edgecolor='white')
-    )
+        wedgeprops=dict(linewidth=0.3, edgecolor='white'))
 
     for autotext in autotexte:
         autotext.set_color('white')
@@ -299,8 +289,8 @@ def gesamtanalyse_erstellen():
         df_ergebnisse['Ursache'],
         title='Ursache',
         loc='center left',
-        bbox_to_anchor=(1.05, 0.5)
-    )
+        bbox_to_anchor=(1.05, 0.5))
+    
     achsen[1, 0].set_title('Struktur der Todesursachen')
 
     # Unten rechts - Text
@@ -313,8 +303,7 @@ def gesamtanalyse_erstellen():
         f"Gesamt:\n"
         f"{gesamtsterbefaelle:,}\n\n"
         f"Hauptursache:\n"
-        f"{hauptursache}"
-    )
+        f"{hauptursache}")
 
     achsen[1, 1].text(
         0.5, 0.5, text,
@@ -375,8 +364,10 @@ def erstelle_interpretationsbericht(df_ergebnisse, gesamtsterbefaelle):
     text.append("INTERPRETATION DER ERGEBNISSE")
     text.append("-" * 80)
 
-    text.append("Hinweis: Die dargestellten rauchbedingten Todesfälle sind statistische Schätzwerte.")
-    text.append("Auf Grundlage des Smoking Attributable Fraction (SAF)-Modells.")
+    text.append("Die dargestellten Werte basieren auf dem Smoking Attributable Fraction (SAF)-Modell und stellen statistische Schätzwerte dar.")
+    text.append("")
+    text.append("Die Ergebnisse zeigen, dass tabakbedingte Erkrankungen einen erheblichen Anteil an der Gesamtsterblichkeit in Deutschland ausmachen.")
+    text.append("Lungenkrebs weist den größten Anteil der tabakassoziierten Todesfälle auf.")
     text.append(f"Geschätzte tabakassoziierte Todesfälle: {total_attributable:,}".replace(",", "."))
     text.append(f"Anteil an allen Sterbefällen: {(total_attributable / gesamtsterbefaelle * 100):.1f}%")
     text.append(f"Wichtigste tabakassoziierte Todesursache: {hauptursache}")
